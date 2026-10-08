@@ -2,7 +2,16 @@ import asyncio
 import aiohttp
 import discord
 from discord.ext import commands
-from config import Cores, TEMPO_DELETE_ERRO, TEMPO_DELETE_SUCESSO
+from config import (
+    Cores,
+    PREFIXO,
+    STATUS_DISCORD,
+    TEMPO_DELETE_ERRO,
+    TEMPO_DELETE_SUCESSO,
+    obter_atividade_texto,
+    obter_prefixo_salvo,
+    salvar_prefixo_arquivo,
+)
 from utils.helpers import tem_permissao_acao, tentar_deletar_mensagem
 
 
@@ -463,6 +472,109 @@ class Customizacao(commands.Cog):
                 color=Cores.ERRO
             )
             await ctx.send(embed=embed, delete_after=TEMPO_DELETE_ERRO)
+
+    # ========================================================
+    # COMANDO: PREFIXO DO BOT (DINÂMICO E PRESENÇA NO DISCORD)
+    # ========================================================
+    @commands.command(name="setprefix", aliases=["prefixo", "prefix", "set_prefix"])
+    async def setprefix(self, ctx, novo_prefixo: str = None):
+        """
+        Altera o prefixo de comandos do bot e atualiza o status de presença (Jogando Meu prefixo é ...).
+        Exemplo: !setprefix .
+        """
+        await tentar_deletar_mensagem(ctx)
+
+        if not tem_permissao_acao(ctx, "customizacao"):
+            embed = discord.Embed(
+                title="❌ Sem Permissão",
+                description="Você precisa de autorização da Staff ou do cargo configurado para alterar o prefixo do bot.",
+                color=Cores.ERRO
+            )
+            await ctx.send(embed=embed, delete_after=TEMPO_DELETE_ERRO)
+            return
+
+        prefixo_atual = getattr(self.bot, "custom_prefix", None) or obter_prefixo_salvo()
+
+        if not novo_prefixo or not novo_prefixo.strip():
+            embed_info = discord.Embed(
+                title="⚙️ Prefixo do Bot",
+                description=(
+                    f"O prefixo atual do bot é: `{prefixo_atual}`\n\n"
+                    f"**Como alterar:**\n"
+                    f"`{prefixo_atual}setprefix <novo_prefixo>`\n\n"
+                    f"**Exemplos:**\n"
+                    f"• `{prefixo_atual}setprefix .`\n"
+                    f"• `{prefixo_atual}setprefix !`\n"
+                    f"• `{prefixo_atual}setprefix $`\n\n"
+                    f"*(Ao alterar, o status no Discord muda automaticamente para `Jogando Meu prefixo é <novo_prefixo>`)*"
+                ),
+                color=Cores.INFO
+            )
+            await ctx.send(embed=embed_info, delete_after=TEMPO_DELETE_SUCESSO)
+            return
+
+        novo_prefixo = novo_prefixo.strip()
+
+        if len(novo_prefixo) > 5:
+            embed_erro = discord.Embed(
+                title="❌ Prefixo Muito Longo",
+                description="O prefixo pode ter no máximo **5 caracteres**.",
+                color=Cores.ERRO
+            )
+            await ctx.send(embed=embed_erro, delete_after=TEMPO_DELETE_ERRO)
+            return
+
+        if any(char.isspace() for char in novo_prefixo):
+            embed_erro = discord.Embed(
+                title="❌ Prefixo Inválido",
+                description="O prefixo não pode conter espaços vazios.",
+                color=Cores.ERRO
+            )
+            await ctx.send(embed=embed_erro, delete_after=TEMPO_DELETE_ERRO)
+            return
+
+        if novo_prefixo == prefixo_atual:
+            embed_aviso = discord.Embed(
+                title="⚠️ Prefixo Idêntico",
+                description=f"O prefixo informado já é o prefixo atual do bot (`{prefixo_atual}`).",
+                color=Cores.AVISO
+            )
+            await ctx.send(embed=embed_aviso, delete_after=TEMPO_DELETE_ERRO)
+            return
+
+        # 1. Salva a persistência no arquivo JSON
+        salvar_prefixo_arquivo(novo_prefixo)
+
+        # 2. Atualiza a memória dinâmica do bot
+        self.bot.custom_prefix = novo_prefixo
+
+        # 3. Atualiza o status/atividade do bot no Discord
+        novo_status_texto = obter_atividade_texto(novo_prefixo)
+        try:
+            await self.bot.change_presence(
+                status=STATUS_DISCORD,
+                activity=discord.Game(name=novo_status_texto)
+            )
+        except Exception as e:
+            print(f"⚠️ Falha ao atualizar presença do bot no Discord: {e}")
+
+        # 4. Envia embed de confirmação
+        embed_sucesso = discord.Embed(
+            title="⚡ Prefixo Atualizado com Sucesso!",
+            description=(
+                f"O prefixo do bot foi alterado por {ctx.author.mention}!\n\n"
+                f"• **Prefixo Anterior:** `{prefixo_atual}`\n"
+                f"• **Novo Prefixo:** `{novo_prefixo}`\n"
+                f"• **Status no Discord:** `Jogando {novo_status_texto}`\n\n"
+                f"💡 **Teste agora:**\n"
+                f"Tente usar comandos com o novo prefixo, como `{novo_prefixo}painel` ou `{novo_prefixo}vip`!"
+            ),
+            color=Cores.SUCESSO
+        )
+        if ctx.guild.icon:
+            embed_sucesso.set_thumbnail(url=ctx.guild.icon.url)
+        embed_sucesso.set_footer(text=f"Alterado por {ctx.author.display_name}")
+        await ctx.send(embed=embed_sucesso, delete_after=TEMPO_DELETE_SUCESSO)
 
 
 async def setup(bot):

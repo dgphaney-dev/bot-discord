@@ -25,15 +25,23 @@ from config import (
     PREFIXO,
     STATUS_DISCORD,
     TOKEN,
+    obter_atividade_texto,
+    obter_prefixo_salvo,
 )
+
+def get_prefix(bot_instance, message):
+    """Resolve o prefixo dinamicamente para cada mensagem em tempo real."""
+    prefix = getattr(bot_instance, "custom_prefix", None) or obter_prefixo_salvo()
+    return commands.when_mentioned_or(prefix)(bot_instance, message)
 
 # Inicialização do Bot
 bot = commands.Bot(
-    command_prefix=PREFIXO,
+    command_prefix=get_prefix,
     intents=INTENTS,
     case_insensitive=True,  # Permite comandos tanto em minúsculas quanto maiúsculas (ex: !vip ou !VIP)
     help_command=None       # Desabilita o help padrão para usar o cog de painel interativo (!painel / !ajuda)
 )
+bot.custom_prefix = obter_prefixo_salvo()
 
 
 async def setup_hook():
@@ -64,11 +72,13 @@ async def on_ready():
             print(f"      ⚡ {len(cmds)} comandos Slash sincronizados instantaneamente em: {g.name}")
         except Exception as e:
             print(f"      ⚠️ Falha ao sincronizar em {g.name}: {e}")
-    print(f"⚡ Prefixo Atual: {PREFIXO}")
+    prefixo_atual = getattr(bot, "custom_prefix", obter_prefixo_salvo())
+    print(f"⚡ Prefixo Atual: {prefixo_atual}")
     print("=" * 50)
 
     # Configuração de status e atividade customizados
-    atividade = discord.Game(name=ATIVIDADE_TEXTO)
+    texto_atividade = obter_atividade_texto(prefixo_atual)
+    atividade = discord.Game(name=texto_atividade)
     await bot.change_presence(
         status=STATUS_DISCORD,
         activity=atividade

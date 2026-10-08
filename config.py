@@ -9,11 +9,34 @@ caminho_env = diretorio_base / ".env"
 load_dotenv(dotenv_path=caminho_env)
 
 # ========================================================
-# CONFIGURAÇÕES BÁSICAS DO BOT
+# CONFIGURAÇÕES BÁSICAS DO BOT E PREFIXO DINÂMICO
 # ========================================================
 TOKEN = os.getenv("DISCORD_TOKEN", "")
 
-PREFIXO = os.getenv("BOT_PREFIX", "!")
+ARQUIVO_PREFIXO = diretorio_base / "data" / "prefixo.json"
+
+def obter_prefixo_salvo() -> str:
+    """Retorna o prefixo salvo no JSON ou o padrão do .env / '!'."""
+    if ARQUIVO_PREFIXO.exists():
+        try:
+            import json
+            with open(ARQUIVO_PREFIXO, "r", encoding="utf-8") as f:
+                dados = json.load(f)
+                prefixo = dados.get("prefixo")
+                if prefixo and isinstance(prefixo, str):
+                    return prefixo.strip()
+        except Exception:
+            pass
+    return os.getenv("BOT_PREFIX", "!")
+
+def salvar_prefixo_arquivo(novo_prefixo: str):
+    """Salva o novo prefixo no arquivo JSON de persistência."""
+    import json
+    ARQUIVO_PREFIXO.parent.mkdir(parents=True, exist_ok=True)
+    with open(ARQUIVO_PREFIXO, "w", encoding="utf-8") as f:
+        json.dump({"prefixo": novo_prefixo}, f, indent=4, ensure_ascii=False)
+
+PREFIXO = obter_prefixo_salvo()
 
 # Intents do Discord
 INTENTS = discord.Intents.default()
@@ -34,7 +57,13 @@ STATUS_MAPA = {
     "invisible": discord.Status.invisible,
 }
 STATUS_DISCORD = STATUS_MAPA.get(STATUS_TIPO, discord.Status.online)
-ATIVIDADE_TEXTO = os.getenv("BOT_ATIVIDADE", f"Meu prefixo é {PREFIXO}")
+
+def obter_atividade_texto(prefixo: str = None) -> str:
+    """Gera o texto de atividade do bot incluindo o prefixo atual."""
+    prefix = prefixo or obter_prefixo_salvo()
+    return os.getenv("BOT_ATIVIDADE", f"Meu prefixo é {prefix}")
+
+ATIVIDADE_TEXTO = obter_atividade_texto(PREFIXO)
 
 # ========================================================
 # FUNÇÃO AUXILIAR PARA PARSE DE CORES HEXADECIMAIS

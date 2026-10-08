@@ -333,7 +333,12 @@ class MenuPainel(discord.ui.Select):
                 value=f"`{PREFIXO}nome_bot <novo_nome>`\n*Altera o username global do bot no Discord.*",
                 inline=False
             )
-            embed_resposta.set_footer(text="Permissão necessária: Administrador")
+            embed_resposta.add_field(
+                name="⚡  Prefixo do Bot",
+                value=f"`{PREFIXO}setprefix <novo_prefixo>`\n*Altera o prefixo de comandos e atualiza o status 'Jogando' no perfil.*",
+                inline=False
+            )
+            embed_resposta.set_footer(text="Permissão necessária: Staff / Administrador")
 
         elif opcao == "vip":
             embed_resposta = discord.Embed(
