@@ -88,16 +88,19 @@ class Warns(commands.Cog):
         embed = discord.Embed(
             title="⚠️  ADVERTÊNCIA REGISTRADA",
             description=(
-                f"O membro {membro.mention} recebeu uma advertência oficial.\n"
-                "──────────────────────────────────────────────"
+                f"> O membro {membro.mention} recebeu uma advertência oficial da moderação.\n\n"
+                "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
             ),
             color=Cores.AVISO
         )
-        embed.add_field(name="👤  Membro", value=f"{membro.mention}\n`@{membro.name}`", inline=True)
+        embed.set_author(name=f"Moderação • {ctx.guild.name}", icon_url=ctx.guild.icon.url if ctx.guild.icon else None)
+        embed.set_thumbnail(url=membro.display_avatar.url)
+        embed.add_field(name="👤  Membro Punido", value=f"{membro.mention}\n`@{membro.name}`", inline=True)
         embed.add_field(name="🛡️  Moderador", value=f"{ctx.author.mention}\n`@{ctx.author.name}`", inline=True)
         embed.add_field(name="📊  Total Acumulado", value=f"```fix\n{total_warns} advertência(s)\n```", inline=True)
-        embed.add_field(name="📋  Motivo", value=f"```yaml\n{motivo}\n```", inline=False)
-        embed.set_footer(text=f"ID do Usuário: {membro.id}")
+        embed.add_field(name="📋  Motivo Registrado", value=f"```yaml\n{motivo}\n```", inline=False)
+        embed.set_footer(text=f"ID: {membro.id}", icon_url=ctx.author.display_avatar.url)
+        embed.timestamp = discord.utils.utcnow()
         await ctx.send(embed=embed, delete_after=TEMPO_DELETE_SUCESSO)
 
         # Log
@@ -108,6 +111,7 @@ class Warns(commands.Cog):
                 description=f"{membro.mention} recebeu a advertência #{nova_warn['id']} de {ctx.author.mention}.\n**Motivo:** {motivo}",
                 color=Cores.AVISO
             )
+            embed_log.timestamp = discord.utils.utcnow()
             await cog_logs.enviar_log(ctx.guild, embed_log)
 
     @commands.command(name="warns", aliases=["advertencias", "verwarns"])
@@ -122,10 +126,16 @@ class Warns(commands.Cog):
         lista = self.warns.get(guild_id_str, {}).get(user_id_str, [])
 
         embed = discord.Embed(
-            title=f"📋 Histórico de Advertências de {alvo.name}",
-            description=f"Total de advertências ativas: **{len(lista)}**\n──────────────────────────────────────────────",
+            title="📋  HISTÓRICO DE ADVERTÊNCIAS",
+            description=(
+                f"> Registro de advertências ativas de {alvo.mention} (`@{alvo.name}`).\n"
+                f"> **Total acumulado:** `{len(lista)}` advertência(s)\n\n"
+                "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
+            ),
             color=Cores.INFO
         )
+        embed.set_author(name=f"Histórico Disciplinar • {alvo.display_name}", icon_url=alvo.display_avatar.url)
+        embed.set_thumbnail(url=alvo.display_avatar.url)
 
         if not lista:
             embed.description += "\n*Nenhuma advertência registrada para este usuário.*"
@@ -138,6 +148,8 @@ class Warns(commands.Cog):
                     inline=False
                 )
 
+        embed.set_footer(text=f"ID: {alvo.id} • Solicitado por {ctx.author.display_name}", icon_url=ctx.author.display_avatar.url)
+        embed.timestamp = discord.utils.utcnow()
         await ctx.send(embed=embed, delete_after=30)
 
     @commands.command(name="unwarn", aliases=["removerwarn", "tirarwarn"])

@@ -340,20 +340,23 @@ class ViewPainelStaff(discord.ui.View):
     def gerar_embed(self) -> discord.Embed:
         mod_info = MODULOS_PERMISSOES.get(self.modulo_atual, MODULOS_PERMISSOES["staff"])
         pendente_txt = (
-            f"\n🎯 **Cargo Selecionado:** {self.cargo_selecionado_pendente.mention} *(Clique em 'Salvar Neste')*\n"
+            f"\n> 🎯 **Cargo Selecionado:** {self.cargo_selecionado_pendente.mention} *(Clique em 'Salvar Neste')*\n"
             if self.cargo_selecionado_pendente else ""
         )
         embed = discord.Embed(
             title="🛡️  PAINEL DE CONFIGURAÇÃO DE STAFF & CARGOS",
             description=(
-                f"Olá {self.autor.mention}, cadastre e configure os cargos de Staff do servidor!\n\n"
-                f"🔹 **Página Atual:** **{self.pagina_atual}/3**\n"
-                f"🔹 **Módulo em Edição:** **{mod_info['nome']}**"
-                f"{pendente_txt}\n"
-                "──────────────────────────────────────────────"
+                f"> Olá {self.autor.mention}, cadastre e configure os cargos autorizados do servidor!\n\n"
+                f"• **Página Atual:** **{self.pagina_atual}/3**\n"
+                f"• **Módulo em Edição:** **{mod_info['nome']}**"
+                f"{pendente_txt}\n\n"
+                "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
             ),
             color=Cores.INFO
         )
+        embed.set_author(name=f"Hierarquia & Staff • {self.guild.name}", icon_url=self.guild.icon.url if self.guild.icon else None)
+        if self.guild.icon:
+            embed.set_thumbnail(url=self.guild.icon.url)
 
         guild_id = self.guild.id
 
@@ -399,7 +402,8 @@ class ViewPainelStaff(discord.ui.View):
                     status_str = f"🏷️ {cargo.mention}" if cargo else "*Nenhum (Apenas Admin nativo)*"
                     embed.add_field(name=info["nome"], value=status_str, inline=True)
 
-        embed.set_footer(text=f"Servidor: {self.guild.name} • Navegue pelas páginas 1, 2 e 3 abaixo")
+        embed.set_footer(text=f"{self.guild.name} • Navegue pelas páginas 1, 2 e 3 abaixo", icon_url=self.autor.display_avatar.url)
+        embed.timestamp = discord.utils.utcnow()
         return embed
 
 

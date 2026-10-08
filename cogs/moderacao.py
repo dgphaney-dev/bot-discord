@@ -218,12 +218,13 @@ class Moderacao(commands.Cog):
         embed_mute = discord.Embed(
             title="🔇  MEMBRO SILENCIADO",
             description=(
-                f"O membro {membro.mention} foi punido e não poderá falar ou digitar temporariamente.\n"
-                "──────────────────────────────────────────────"
+                f"> O membro {membro.mention} foi punido e teve suas permissões de fala temporariamente revogadas.\n\n"
+                "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
             ),
             color=Cores.MODERACAO
         )
-        embed_mute.add_field(name="👤  Membro Punição", value=f"{membro.mention}\n`@{membro.name}`", inline=True)
+        embed_mute.set_author(name=f"Moderação • {ctx.guild.name}", icon_url=ctx.guild.icon.url if ctx.guild.icon else None)
+        embed_mute.add_field(name="👤  Membro Punido", value=f"{membro.mention}\n`@{membro.name}`", inline=True)
         embed_mute.add_field(name="🛡️  Moderador", value=f"{ctx.author.mention}\n`@{ctx.author.name}`", inline=True)
         embed_mute.add_field(name="⏱️  Duração", value=f"```fix\n{tempo_formatado}\n```", inline=True)
         embed_mute.add_field(name="📋  Motivo Registrado", value=f"```yaml\n{motivo}\n```", inline=False)
@@ -237,7 +238,8 @@ class Moderacao(commands.Cog):
         if imagem_mod:
             embed_mute.set_image(url=imagem_mod)
 
-        embed_mute.set_footer(text=f"ID do Usuário: {membro.id} • Punição ativa")
+        embed_mute.set_footer(text=f"ID: {membro.id} • Moderação Ativa", icon_url=ctx.author.display_avatar.url)
+        embed_mute.timestamp = discord.utils.utcnow()
         await ctx.send(embed=embed_mute, delete_after=TEMPO_DELETE_SUCESSO)
 
         # 7. Tarefa assíncrona para remover o cargo após o tempo limite
@@ -327,11 +329,12 @@ class Moderacao(commands.Cog):
             embed_unmute = discord.Embed(
                 title="🔊  MEMBRO DESMUTADO",
                 description=(
-                    f"O silenciamento de {membro.mention} foi removido com sucesso!\n"
-                    "──────────────────────────────────────────────"
+                    f"> O silenciamento do membro {membro.mention} foi revogado com sucesso!\n\n"
+                    "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
                 ),
                 color=Cores.SUCESSO
             )
+            embed_unmute.set_author(name=f"Moderação • {ctx.guild.name}", icon_url=ctx.guild.icon.url if ctx.guild.icon else None)
             embed_unmute.add_field(name="👤  Membro", value=f"{membro.mention}\n`@{membro.name}`", inline=True)
             embed_unmute.add_field(name="🛡️  Moderador", value=f"{ctx.author.mention}\n`@{ctx.author.name}`", inline=True)
             embed_unmute.add_field(name="📋  Status", value="```diff\n+ Fala Liberada\n```", inline=True)
@@ -345,6 +348,8 @@ class Moderacao(commands.Cog):
             if imagem_mod:
                 embed_unmute.set_image(url=imagem_mod)
 
+            embed_unmute.set_footer(text=f"ID: {membro.id}", icon_url=ctx.author.display_avatar.url)
+            embed_unmute.timestamp = discord.utils.utcnow()
             await ctx.send(embed=embed_unmute, delete_after=TEMPO_DELETE_SUCESSO)
         except discord.Forbidden:
             embed_perm = discord.Embed(
@@ -455,11 +460,12 @@ class Moderacao(commands.Cog):
             embed_ban = discord.Embed(
                 title="🔨  MEMBRO BANIDO DO SERVIDOR",
                 description=(
-                    f"O infrator {membro.mention} foi banido permanentemente.\n"
-                    "──────────────────────────────────────────────"
+                    f"> O infrator {membro.mention} foi banido permanentemente.\n\n"
+                    "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
                 ),
                 color=Cores.ERRO
             )
+            embed_ban.set_author(name=f"Punição Aplicada • {ctx.guild.name}", icon_url=ctx.guild.icon.url if ctx.guild.icon else None)
             embed_ban.add_field(name="👤  Membro Banido", value=f"{membro.mention}\n`@{membro.name}`", inline=True)
             embed_ban.add_field(name="🛡️  Moderador", value=f"{ctx.author.mention}\n`@{ctx.author.name}`", inline=True)
             embed_ban.add_field(name="🆔  ID do Membro", value=f"`{membro.id}`", inline=True)
@@ -472,7 +478,8 @@ class Moderacao(commands.Cog):
             if imagem_mod:
                 embed_ban.set_image(url=imagem_mod)
 
-            embed_ban.set_footer(text=f"ID do Usuário: {membro.id}")
+            embed_ban.set_footer(text=f"ID: {membro.id} • Punição Permanente", icon_url=ctx.author.display_avatar.url)
+            embed_ban.timestamp = discord.utils.utcnow()
             await ctx.send(embed=embed_ban, delete_after=TEMPO_DELETE_SUCESSO)
 
         except discord.Forbidden:
@@ -557,11 +564,12 @@ class Moderacao(commands.Cog):
             embed_unban = discord.Embed(
                 title="🕊️  MEMBRO DESBANIDO",
                 description=(
-                    f"O banimento do usuário {usuario.mention} foi revogado com sucesso.\n"
-                    "──────────────────────────────────────────────"
+                    f"> O banimento do usuário {usuario.mention} foi revogado com sucesso.\n\n"
+                    "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
                 ),
                 color=Cores.SUCESSO
             )
+            embed_unban.set_author(name=f"Moderação • {ctx.guild.name}", icon_url=ctx.guild.icon.url if ctx.guild.icon else None)
             embed_unban.add_field(name="👤  Usuário", value=f"{usuario.mention}\n`@{usuario.name}`", inline=True)
             embed_unban.add_field(name="🛡️  Moderador", value=f"{ctx.author.mention}\n`@{ctx.author.name}`", inline=True)
             embed_unban.add_field(name="🆔  ID do Usuário", value=f"`{usuario.id}`", inline=True)
@@ -576,7 +584,8 @@ class Moderacao(commands.Cog):
             if imagem_mod:
                 embed_unban.set_image(url=imagem_mod)
 
-            embed_unban.set_footer(text=f"ID do Usuário: {usuario.id}")
+            embed_unban.set_footer(text=f"ID: {usuario.id}", icon_url=ctx.author.display_avatar.url)
+            embed_unban.timestamp = discord.utils.utcnow()
             await ctx.send(embed=embed_unban, delete_after=TEMPO_DELETE_SUCESSO)
 
         except discord.Forbidden:
@@ -699,11 +708,12 @@ class Moderacao(commands.Cog):
             embed_kick = discord.Embed(
                 title="👢  MEMBRO EXPULSO DO SERVIDOR",
                 description=(
-                    f"O membro {membro.mention} foi expulso do servidor.\n"
-                    "──────────────────────────────────────────────"
+                    f"> O membro {membro.mention} foi expulso do servidor.\n\n"
+                    "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
                 ),
                 color=Cores.AVISO
             )
+            embed_kick.set_author(name=f"Punição Aplicada • {ctx.guild.name}", icon_url=ctx.guild.icon.url if ctx.guild.icon else None)
             embed_kick.add_field(name="👤  Membro Expulso", value=f"{membro.mention}\n`@{membro.name}`", inline=True)
             embed_kick.add_field(name="🛡️  Moderador", value=f"{ctx.author.mention}\n`@{ctx.author.name}`", inline=True)
             embed_kick.add_field(name="🆔  ID do Membro", value=f"`{membro.id}`", inline=True)
@@ -716,7 +726,8 @@ class Moderacao(commands.Cog):
             if imagem_mod:
                 embed_kick.set_image(url=imagem_mod)
 
-            embed_kick.set_footer(text=f"ID do Usuário: {membro.id}")
+            embed_kick.set_footer(text=f"ID: {membro.id}", icon_url=ctx.author.display_avatar.url)
+            embed_kick.timestamp = discord.utils.utcnow()
             await ctx.send(embed=embed_kick, delete_after=TEMPO_DELETE_SUCESSO)
 
         except discord.Forbidden:

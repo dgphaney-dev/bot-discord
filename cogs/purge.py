@@ -47,18 +47,20 @@ class Limpar(commands.Cog):
             embed = discord.Embed(
                 title="🧹  LIMPEZA DE CHAT CONCLUÍDA",
                 description=(
-                    f"Foram removidas **{total_apagadas}** mensagens no canal {ctx.channel.mention}!\n"
-                    "──────────────────────────────────────────────"
+                    f"> Foram removidas **{total_apagadas} mensagens** no canal {ctx.channel.mention}!\n\n"
+                    "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
                 ),
                 color=Cores.SUCESSO
             )
+            embed.set_author(name=f"Faxina de Mensagens • {ctx.guild.name}", icon_url=ctx.guild.icon.url if ctx.guild.icon else None)
             embed.add_field(name="🗑️  Mensagens Apagadas", value=f"```fix\n{total_apagadas} msgs\n```", inline=True)
-            embed.add_field(name="🛡️  Moderador Responsável", value=f"{ctx.author.mention}\n`@{ctx.author.name}`", inline=True)
+            embed.add_field(name="🛡️  Moderador", value=f"{ctx.author.mention}\n`@{ctx.author.name}`", inline=True)
 
             if ctx.guild.icon:
                 embed.set_thumbnail(url=ctx.guild.icon.url)
 
-            embed.set_footer(text=f"Esta mensagem será apagada em {TEMPO_DELETE_SUCESSO} segundos...")
+            embed.set_footer(text=f"{ctx.guild.name} • Apaga em {TEMPO_DELETE_SUCESSO}s", icon_url=ctx.author.display_avatar.url)
+            embed.timestamp = discord.utils.utcnow()
             await ctx.send(embed=embed, delete_after=TEMPO_DELETE_SUCESSO)
 
         except discord.Forbidden:

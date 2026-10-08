@@ -375,21 +375,21 @@ class Info(commands.Cog):
             cor_embed = fetched_user.accent_color or Cores.INFO
 
         # Montagem da Descrição Estilo Perfil Oficial
-        apelido_txt = f" • Apelido: `{alvo.nick}`" if getattr(alvo, "nick", None) else ""
-        servidor_tag = "" if no_servidor else " • 🌐 *(Usuário Global)*"
+        apelido_txt = f"\n> 🏷️ **Apelido no Servidor:** `{alvo.nick}`" if getattr(alvo, "nick", None) else ""
+        servidor_tag = "" if no_servidor else "\n> 🌐 **Status:** Membro Global *(não está no servidor)*"
 
         descricao_topo = (
-            f"**{alvo.display_name}**\n"
-            f"`{alvo.name}` {badges_inline_str}\n"
-            f"{alvo.mention}{apelido_txt}{servidor_tag}\n"
-            "──────────────────────────────────────────────"
+            f"### {alvo.display_name} {badges_inline_str}\n"
+            f"> 👤 **Usuário:** `{alvo.name}`\n"
+            f"> 🆔 **ID:** `{alvo.id}`{apelido_txt}{servidor_tag}\n\n"
+            "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
         )
 
         embed = discord.Embed(
             description=descricao_topo,
             color=cor_embed
         )
-        embed.set_author(name=f"Perfil de {alvo.display_name}", icon_url=alvo.display_avatar.url)
+        embed.set_author(name=f"Perfil do Discord • {alvo.display_name}", icon_url=alvo.display_avatar.url)
         embed.set_thumbnail(url=alvo.display_avatar.url)
 
         # Banner (se tiver)
@@ -443,9 +443,10 @@ class Info(commands.Cog):
         )
 
         embed.set_footer(
-            text=f"ID: {alvo.id} • Solicitado por {ctx.author.name}",
+            text=f"{ctx.guild.name} • Solicitado por {ctx.author.display_name}",
             icon_url=ctx.author.display_avatar.url
         )
+        embed.timestamp = discord.utils.utcnow()
 
         view = ViewLinksPerfil(alvo.display_avatar.url, banner_url)
         await ctx.send(embed=embed, view=view)
@@ -484,13 +485,14 @@ class Info(commands.Cog):
         total_boosters = len(guild.premium_subscribers)
 
         embed = discord.Embed(
-            title=f"🏰  INFORMAÇÕES DE {guild.name.upper()}",
+            title=f"🏰  {guild.name.upper()}",
             description=(
-                f"Visão geral das estatísticas e configurações de {guild.name}.\n"
-                "──────────────────────────────────────────────"
+                f"> Visão geral e estatísticas em tempo real de **{guild.name}**.\n\n"
+                "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
             ),
             color=Cores.PADRAO
         )
+        embed.set_author(name=f"Estatísticas do Servidor • {guild.name}", icon_url=guild.icon.url if guild.icon else None)
 
         if guild.icon:
             embed.set_thumbnail(url=guild.icon.url)
@@ -561,9 +563,10 @@ class Info(commands.Cog):
         )
 
         embed.set_footer(
-            text=f"Servidor: {guild.name} • Solicitado por {ctx.author.name}",
+            text=f"{guild.name} • Solicitado por {ctx.author.display_name}",
             icon_url=ctx.author.display_avatar.url
         )
+        embed.timestamp = discord.utils.utcnow()
 
         await ctx.send(embed=embed)
 
@@ -584,12 +587,14 @@ class Info(commands.Cog):
         cor = getattr(alvo, "color", discord.Color.default())
 
         embed = discord.Embed(
-            title=f"🖼️  AVATAR DE {alvo.display_name.upper()}",
-            description=f"Clique no botão abaixo para baixar em alta qualidade.",
+            title=f"🖼️  Avatar de {alvo.display_name}",
+            description="> Clique no botão abaixo para baixar ou visualizar em tamanho original (1024px).",
             color=cor if cor.value != 0 else Cores.PADRAO
         )
+        embed.set_author(name=f"Foto de Perfil • {alvo.name}", icon_url=alvo.display_avatar.url)
         embed.set_image(url=url)
-        embed.set_footer(text=f"ID: {alvo.id} • Solicitado por {ctx.author.name}")
+        embed.set_footer(text=f"ID: {alvo.id} • Solicitado por {ctx.author.display_name}", icon_url=ctx.author.display_avatar.url)
+        embed.timestamp = discord.utils.utcnow()
 
         view = ViewLinksPerfil(url)
         await ctx.send(embed=embed, view=view)
@@ -611,10 +616,12 @@ class Info(commands.Cog):
 
         if not fetched.banner:
             embed_aviso = discord.Embed(
-                title="⚠️ Sem Banner",
-                description=f"{alvo.mention} não possui um banner customizado no perfil do Discord.",
+                title="⚠️ Sem Banner Customizado",
+                description=f"> {alvo.mention} não possui um banner personalizado configurado no perfil.",
                 color=Cores.AVISO
             )
+            embed_aviso.set_footer(text=f"{ctx.guild.name}")
+            embed_aviso.timestamp = discord.utils.utcnow()
             await ctx.send(embed=embed_aviso, delete_after=TEMPO_DELETE_ERRO)
             return
 
@@ -622,12 +629,14 @@ class Info(commands.Cog):
         cor = getattr(alvo, "color", discord.Color.default())
 
         embed = discord.Embed(
-            title=f"🎨  BANNER DE {alvo.display_name.upper()}",
-            description=f"Clique no botão abaixo para baixar o banner em alta resolução.",
+            title=f"🎨  Banner de {alvo.display_name}",
+            description="> Clique no botão abaixo para baixar ou visualizar o banner em alta definição.",
             color=cor if cor.value != 0 else Cores.PADRAO
         )
+        embed.set_author(name=f"Banner de Perfil • {alvo.name}", icon_url=alvo.display_avatar.url)
         embed.set_image(url=url)
-        embed.set_footer(text=f"ID: {alvo.id} • Solicitado por {ctx.author.name}")
+        embed.set_footer(text=f"ID: {alvo.id} • Solicitado por {ctx.author.display_name}", icon_url=ctx.author.display_avatar.url)
+        embed.timestamp = discord.utils.utcnow()
 
         view = ViewLinksPerfil(alvo.display_avatar.url, url)
         await ctx.send(embed=embed, view=view)

@@ -83,12 +83,13 @@ def obter_cor(env_var: str, fallback_hex: str) -> discord.Color:
 # PALETA DE CORES PARA EMBEDS (CONFIGURÁVEL NO .ENV)
 # ========================================================
 class Cores:
-    SUCESSO = obter_cor("COR_EMBED_SUCESSO", "#00FF22")
-    ERRO = obter_cor("COR_EMBED_ERRO", "#ED4245")
-    AVISO = obter_cor("COR_EMBED_AVISO", "#FFCC00")
-    INFO = obter_cor("COR_EMBED_INFO", "#00C3FF")
-    MODERACAO = obter_cor("COR_EMBED_MODERACAO", "#B700FF")
-    PADRAO = obter_cor("COR_EMBED_PADRAO", "#5865F2")
+    SUCESSO = obter_cor("COR_EMBED_SUCESSO", "#57F287")   # Verde Esmeralda moderno do Discord
+    ERRO = obter_cor("COR_EMBED_ERRO", "#ED4245")         # Vermelho Alerta do Discord
+    AVISO = obter_cor("COR_EMBED_AVISO", "#FEE75C")       # Amarelo Ouro aconchegante do Discord
+    INFO = obter_cor("COR_EMBED_INFO", "#5865F2")         # Blurple oficial do Discord
+    MODERACAO = obter_cor("COR_EMBED_MODERACAO", "#9B59B6") # Roxo Ametista elegante
+    PADRAO = obter_cor("COR_EMBED_PADRAO", "#5865F2")     # Blurple padrão
+    VIP = obter_cor("COR_EMBED_VIP", "#F47FFF")           # Rosa Nitro premium
 
 # ========================================================
 # CONFIGURAÇÕES DE MODERAÇÃO E SISTEMA

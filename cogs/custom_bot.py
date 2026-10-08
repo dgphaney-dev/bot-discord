@@ -560,20 +560,21 @@ class Customizacao(commands.Cog):
 
         # 4. Envia embed de confirmação
         embed_sucesso = discord.Embed(
-            title="⚡ Prefixo Atualizado com Sucesso!",
+            title="⚡  Prefixo Atualizado com Sucesso!",
             description=(
-                f"O prefixo do bot foi alterado por {ctx.author.mention}!\n\n"
+                f"> O prefixo de comandos foi alterado por {ctx.author.mention}.\n\n"
                 f"• **Prefixo Anterior:** `{prefixo_atual}`\n"
                 f"• **Novo Prefixo:** `{novo_prefixo}`\n"
                 f"• **Status no Discord:** `Jogando {novo_status_texto}`\n\n"
-                f"💡 **Teste agora:**\n"
-                f"Tente usar comandos com o novo prefixo, como `{novo_prefixo}painel` ou `{novo_prefixo}vip`!"
+                f"💡 *Tente executar:* `{novo_prefixo}painel` *ou* `{novo_prefixo}vip`"
             ),
             color=Cores.SUCESSO
         )
+        embed_sucesso.set_author(name="Configuração de Sistema", icon_url=self.bot.user.display_avatar.url)
         if ctx.guild.icon:
             embed_sucesso.set_thumbnail(url=ctx.guild.icon.url)
-        embed_sucesso.set_footer(text=f"Alterado por {ctx.author.display_name}")
+        embed_sucesso.set_footer(text=f"{ctx.guild.name} • Alterado por {ctx.author.display_name}", icon_url=ctx.author.display_avatar.url)
+        embed_sucesso.timestamp = discord.utils.utcnow()
         await ctx.send(embed=embed_sucesso, delete_after=TEMPO_DELETE_SUCESSO)
 
 

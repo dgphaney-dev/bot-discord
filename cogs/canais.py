@@ -34,14 +34,16 @@ class Canais(commands.Cog):
             embed = discord.Embed(
                 title="🔒  CANAL TRANCADO",
                 description=(
-                    f"O canal {canal_alvo.mention} foi trancado pela moderação!\n"
-                    "──────────────────────────────────────────────"
+                    f"> O canal {canal_alvo.mention} foi temporariamente trancado pela moderação.\n\n"
+                    "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
                 ),
                 color=Cores.AVISO
             )
+            embed.set_author(name=f"Controle de Canais • {ctx.guild.name}", icon_url=ctx.guild.icon.url if ctx.guild.icon else None)
             embed.add_field(name="🛡️  Moderador", value=ctx.author.mention, inline=True)
             embed.add_field(name="📋  Motivo", value=f"```fix\n{motivo}\n```", inline=False)
-            embed.set_footer(text="Apenas moderadores com permissão podem digitar aqui no momento.")
+            embed.set_footer(text="Apenas a equipe de Staff pode digitar aqui no momento.", icon_url=ctx.author.display_avatar.url)
+            embed.timestamp = discord.utils.utcnow()
             await canal_alvo.send(embed=embed)
 
             # Notifica log
@@ -52,6 +54,7 @@ class Canais(commands.Cog):
                     description=f"O canal {canal_alvo.mention} foi trancado por {ctx.author.mention}.\n**Motivo:** {motivo}",
                     color=Cores.AVISO
                 )
+                embed_log.timestamp = discord.utils.utcnow()
                 await cog_logs.enviar_log(ctx.guild, embed_log)
 
         except discord.Forbidden:
@@ -86,13 +89,15 @@ class Canais(commands.Cog):
             embed = discord.Embed(
                 title="🔓  CANAL DESTRANCADO",
                 description=(
-                    f"O canal {canal_alvo.mention} foi destrancado com sucesso!\n"
-                    "──────────────────────────────────────────────\n"
-                    "O envio de mensagens foi liberado para todos os membros."
+                    f"> O canal {canal_alvo.mention} foi destrancado com sucesso!\n\n"
+                    "• O envio de mensagens foi liberado para todos os membros.\n\n"
+                    "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
                 ),
                 color=Cores.SUCESSO
             )
-            embed.set_footer(text=f"Destrancado por {ctx.author.name}")
+            embed.set_author(name=f"Controle de Canais • {ctx.guild.name}", icon_url=ctx.guild.icon.url if ctx.guild.icon else None)
+            embed.set_footer(text=f"Liberado por {ctx.author.display_name}", icon_url=ctx.author.display_avatar.url)
+            embed.timestamp = discord.utils.utcnow()
             await canal_alvo.send(embed=embed)
 
             # Notifica log
@@ -103,6 +108,7 @@ class Canais(commands.Cog):
                     description=f"O canal {canal_alvo.mention} foi liberado por {ctx.author.mention}.",
                     color=Cores.SUCESSO
                 )
+                embed_log.timestamp = discord.utils.utcnow()
                 await cog_logs.enviar_log(ctx.guild, embed_log)
 
         except discord.Forbidden:
@@ -134,10 +140,16 @@ class Canais(commands.Cog):
             await canal_alvo.edit(slowmode_delay=segundos_clamped)
             status_txt = "desativado" if segundos_clamped == 0 else f"definido para **{segundos_clamped} segundos**"
             embed = discord.Embed(
-                title="⏱️ Modo Lento Atualizado",
-                description=f"O modo lento em {canal_alvo.mention} foi {status_txt} por {ctx.author.mention}.",
+                title="⏱️  MODO LENTO ATUALIZADO",
+                description=(
+                    f"> O modo lento em {canal_alvo.mention} foi {status_txt}.\n\n"
+                    "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
+                ),
                 color=Cores.INFO
             )
+            embed.set_author(name=f"Controle de Canais • {ctx.guild.name}", icon_url=ctx.guild.icon.url if ctx.guild.icon else None)
+            embed.set_footer(text=f"Definido por {ctx.author.display_name}", icon_url=ctx.author.display_avatar.url)
+            embed.timestamp = discord.utils.utcnow()
             await ctx.send(embed=embed, delete_after=TEMPO_DELETE_SUCESSO)
         except Exception as e:
             embed_erro = discord.Embed(

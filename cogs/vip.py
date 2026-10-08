@@ -1152,13 +1152,13 @@ class VIP(commands.Cog):
         embed = discord.Embed(
             title="👑  PAINEL DE CONTROLE VIP",
             description=(
-                f"Olá {ctx.author.mention}, seja muito bem-vindo à sua central de gerenciamento VIP!\n\n"
-                "Personalize seu cargo, sua sala de voz e gerencie seus privilégios diretamente "
-                "utilizando os **botões interativos** abaixo.\n"
-                "──────────────────────────────────────────────"
+                f"> Seja bem-vindo à sua central exclusiva, {ctx.author.mention}!\n"
+                f"> Personalize seu cargo, configure sua call privada e gerencie amigos abaixo.\n\n"
+                "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
             ),
             color=cor_embed
         )
+        embed.set_author(name=f"Assinatura VIP • {ctx.author.display_name}", icon_url=ctx.author.display_avatar.url)
 
         if nivel_atual:
             nome_vip = VIP_CARGOS[nivel_atual]
@@ -1225,9 +1225,10 @@ class VIP(commands.Cog):
         if ctx.guild.icon:
             embed.set_thumbnail(url=ctx.guild.icon.url)
         embed.set_footer(
-            text=f"Servidor: {ctx.guild.name} • Use os botões abaixo • Apaga em 2 minutos",
+            text=f"{ctx.guild.name} • Use os botões abaixo • Apaga em 2 minutos",
             icon_url=ctx.author.display_avatar.url
         )
+        embed.timestamp = discord.utils.utcnow()
 
         view = ViewPainelUsuarioVIP(self, ctx.author)
         await ctx.send(embed=embed, view=view, delete_after=120)
@@ -1252,17 +1253,18 @@ class VIP(commands.Cog):
         embed = discord.Embed(
             title="⚙️  PAINEL DE ADMINISTRAÇÃO VIP",
             description=(
-                f"Olá {ctx.author.mention}, use os controles abaixo para gerenciar o sistema de VIPs no servidor.\n\n"
-                "• **📁 Criar Categoria VIP:** Gera automaticamente a categoria `👑・ÁREA VIP` com chat de texto "
-                "e lounge de voz visíveis exclusivamente para quem possui VIP.\n"
-                "• **👥 Membros com VIP:** Lista em tempo real todos os membros com VIP e seus respectivos planos.\n"
-                "──────────────────────────────────────────────"
+                f"> Olá {ctx.author.mention}, utilize os controles abaixo para gerenciar os VIPs do servidor.\n\n"
+                "• **📁 Criar Categoria VIP:** Cria a categoria `👑・ÁREA VIP` com canais exclusivos.\n"
+                "• **👥 Membros com VIP:** Lista os membros com plano ativo e suas validades.\n\n"
+                "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
             ),
             color=Cores.PADRAO
         )
+        embed.set_author(name=f"Gestão Staff • {ctx.guild.name}", icon_url=ctx.guild.icon.url if ctx.guild.icon else None)
         if ctx.guild.icon:
             embed.set_thumbnail(url=ctx.guild.icon.url)
-        embed.set_footer(text=f"Painel administrativo • {ctx.guild.name} • Apaga em 2 minutos")
+        embed.set_footer(text=f"{ctx.guild.name} • Apaga em 2 minutos", icon_url=ctx.author.display_avatar.url)
+        embed.timestamp = discord.utils.utcnow()
 
         view = ViewPainelGestaoVIP(self, ctx.author)
         await ctx.send(embed=embed, view=view, delete_after=120)

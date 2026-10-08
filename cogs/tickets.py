@@ -79,16 +79,19 @@ class ViewBotaoTicket(discord.ui.View):
             )
 
             embed = discord.Embed(
-                title=f"📩  ATENDIMENTO INICIADO",
+                title="📩  ATENDIMENTO INICIADO",
                 description=(
-                    f"Olá {user.mention}, seja bem-vindo ao suporte!\n\n"
-                    "Descreva com detalhes o motivo do seu contato, dúvida ou comprovante de VIP.\n"
-                    "Nossa equipe de Staff responderá em breve.\n"
-                    "──────────────────────────────────────────────"
+                    f"> Olá {user.mention}, seja muito bem-vindo ao seu canal privado de suporte!\n\n"
+                    "• Descreva detalhadamente sua dúvida, problema ou comprovante de VIP.\n"
+                    "• Um membro da nossa equipe de Staff responderá em breve.\n\n"
+                    "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
                 ),
                 color=Cores.INFO
             )
+            embed.set_author(name=f"Ticket #{ticket_num} • {user.display_name}", icon_url=user.display_avatar.url)
+            embed.set_thumbnail(url=user.display_avatar.url)
             embed.set_footer(text="Para encerrar o atendimento, clique no botão vermelho abaixo.")
+            embed.timestamp = discord.utils.utcnow()
 
             view_fechar = ViewFecharTicket()
             await canal.send(content=f"{user.mention}", embed=embed, view=view_fechar)
@@ -136,16 +139,18 @@ class Tickets(commands.Cog):
         embed = discord.Embed(
             title="🎟️  CENTRAL DE SUPORTE & ATENDIMENTO",
             description=(
-                "Precisa de ajuda, deseja tirar dúvidas sobre VIPs ou reportar algo?\n\n"
-                "Clique no botão **`📩 Abrir Atendimento`** abaixo para iniciar um chat privado "
-                "exclusivo com a nossa equipe de Staff!\n"
-                "──────────────────────────────────────────────"
+                "> Precisa de ajuda, suporte sobre VIPs ou deseja falar com a Staff?\n\n"
+                "• Clique no botão **`📩 Abrir Atendimento`** abaixo para iniciar um chat privado.\n"
+                "• Apenas você e a equipe de Staff terão acesso ao canal.\n\n"
+                "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
             ),
             color=Cores.PADRAO
         )
+        embed.set_author(name=f"Atendimento Oficial • {ctx.guild.name}", icon_url=ctx.guild.icon.url if ctx.guild.icon else None)
         if ctx.guild.icon:
             embed.set_thumbnail(url=ctx.guild.icon.url)
-        embed.set_footer(text=f"{ctx.guild.name} • Suporte Oficial")
+        embed.set_footer(text=f"{ctx.guild.name} • Suporte 24/7", icon_url=ctx.guild.icon.url if ctx.guild.icon else None)
+        embed.timestamp = discord.utils.utcnow()
 
         view = ViewBotaoTicket()
         await ctx.send(embed=embed, view=view)

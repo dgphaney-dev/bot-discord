@@ -115,19 +115,24 @@ class Welcome(commands.Cog):
         if canal_id:
             canal = guild.get_channel(canal_id)
             if canal:
+                criado_ts = int(member.created_at.timestamp())
                 embed = discord.Embed(
-                    title=f"🎉 Bem-vindo(a) ao {guild.name}!",
+                    title=f"🎉  BEM-VINDO(A) AO {guild.name.upper()}!",
                     description=(
-                        f"Olá {member.mention}, seja muito bem-vindo(a) à nossa comunidade!\n\n"
-                        f"Você é o nosso membro de número **#{guild.member_count}**.\n"
-                        "Aproveite a estadia e divirta-se nos chats!"
+                        f"> Olá {member.mention}, estamos muito felizes com a sua chegada!\n\n"
+                        f"• 👥 **Posição de Entrada:** Você é o membro **#{guild.member_count}**\n"
+                        f"• 📅 **Conta Criada:** <t:{criado_ts}:R>\n\n"
+                        "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯\n"
+                        "✨ *Leia as regras e divirta-se nos canais de texto e voz!*"
                     ),
-                    color=Cores.INFO
+                    color=Cores.PADRAO
                 )
+                embed.set_author(name=f"Novo Membro • {member.name}", icon_url=member.display_avatar.url)
                 if member.display_avatar:
                     embed.set_thumbnail(url=member.display_avatar.url)
                 if guild.icon:
                     embed.set_footer(text=f"{guild.name} • Comunidade Oficial", icon_url=guild.icon.url)
+                embed.timestamp = discord.utils.utcnow()
                 try:
                     await canal.send(content=f"👋 Olá {member.mention}!", embed=embed)
                 except Exception:

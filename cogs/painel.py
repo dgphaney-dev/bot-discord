@@ -127,13 +127,15 @@ class MenuPainel(discord.ui.Select):
             embed_resposta = discord.Embed(
                 title="⚡  CENTRAL DE COMANDOS & AJUDA",
                 description=(
-                    f"Olá {interaction.user.mention}, seja bem-vindo à central oficial de comandos!\n\n"
-                    "Navegue através do **menu de seleção abaixo** para consultar a sintaxe, "
-                    "permissões e exemplos práticos de cada categoria.\n"
-                    "──────────────────────────────────────────────"
+                    f"> Olá {interaction.user.mention}, seja muito bem-vindo à central oficial de ajuda!\n"
+                    f"> Navegue através do menu abaixo para consultar sintaxes, permissões e exemplos.\n\n"
+                    "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
                 ),
                 color=Cores.INFO
             )
+            embed_resposta.set_author(name=f"Central de Ajuda • {interaction.guild.name}", icon_url=interaction.guild.icon.url if interaction.guild.icon else None)
+            if interaction.guild.icon:
+                embed_resposta.set_thumbnail(url=interaction.guild.icon.url)
             embed_resposta.add_field(
                 name="📁  Categorias do Sistema",
                 value=(
@@ -153,7 +155,8 @@ class MenuPainel(discord.ui.Select):
                 ),
                 inline=False
             )
-            embed_resposta.set_footer(text=f"Prefixo oficial: {PREFIXO} • Selecione uma categoria abaixo.")
+            embed_resposta.set_footer(text=f"{interaction.guild.name} • Prefixo: {PREFIXO}", icon_url=interaction.user.display_avatar.url)
+            embed_resposta.timestamp = discord.utils.utcnow()
 
         elif opcao == "ban":
             embed_resposta = discord.Embed(
@@ -646,13 +649,15 @@ class Painel(commands.Cog):
         embed = discord.Embed(
             title="⚡  CENTRAL DE COMANDOS & AJUDA",
             description=(
-                f"Olá {ctx.author.mention}, seja bem-vindo à central oficial de comandos!\n\n"
-                "Navegue através do **menu de seleção abaixo** para consultar a sintaxe, "
-                "permissões e exemplos práticos de cada categoria.\n"
-                "──────────────────────────────────────────────"
+                f"> Olá {ctx.author.mention}, seja muito bem-vindo à central oficial de comandos!\n"
+                f"> Navegue pelo menu de seleção abaixo para consultar sintaxes e exemplos.\n\n"
+                "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
             ),
             color=Cores.INFO
         )
+        embed.set_author(name=f"Central de Ajuda • {ctx.guild.name}", icon_url=ctx.guild.icon.url if ctx.guild.icon else None)
+        if ctx.guild.icon:
+            embed.set_thumbnail(url=ctx.guild.icon.url)
         embed.add_field(
             name="📁  Categorias do Sistema",
             value=(
@@ -672,10 +677,8 @@ class Painel(commands.Cog):
             ),
             inline=False
         )
-        if ctx.guild.icon:
-            embed.set_thumbnail(url=ctx.guild.icon.url)
-        embed.set_author(name=ctx.guild.name, icon_url=ctx.guild.icon.url if ctx.guild.icon else None)
-        embed.set_footer(text=f"Prefixo oficial: {PREFIXO} • Selecione uma categoria abaixo.")
+        embed.set_footer(text=f"{ctx.guild.name} • Prefixo: {PREFIXO}", icon_url=ctx.author.display_avatar.url)
+        embed.timestamp = discord.utils.utcnow()
 
         await ctx.send(embed=embed, view=PainelView(), delete_after=180)
 
