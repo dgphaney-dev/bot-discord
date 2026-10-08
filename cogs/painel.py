@@ -137,20 +137,26 @@ class MenuPainel(discord.ui.Select):
             if interaction.guild.icon:
                 embed_resposta.set_thumbnail(url=interaction.guild.icon.url)
             embed_resposta.add_field(
-                name=f"{EMOJIS['categorias']}  Categorias do Sistema",
+                name=f"{EMOJIS['categorias']}  Moderação & Auditoria",
                 value=(
-                    f"• {EMOJIS['ban']} **Banimento:** Punições e desbanimentos com GIF\n"
-                    f"• {EMOJIS['mute']} **Silenciamento:** Mute temporário configurável (`10m`, `2h`)\n"
-                    f"• {EMOJIS['clear']} **Limpeza:** Remoção de mensagens em lote (`{PREFIXO}clear`)\n"
-                    f"• {EMOJIS['warn']} **Advertências:** Registro e histórico de warns (`!warn`)\n"
-                    "• 🔒 **Canais:** Trancar (`!lock`), liberar (`!unlock`) e slowmode\n"
-                    f"• {EMOJIS['ticket']} **Tickets:** Atendimento privado interativo (`!painelticket`)\n"
-                    "• 👋 **Boas-Vindas:** Mensagens de entrada e cargo automático (`!setwelcome`)\n"
-                    f"• {EMOJIS['logs']} **Auditoria:** Canal de registros da Staff (`!setlogs`)\n"
-                    f"• 🏷️ **Cargos:** Criação via Modal e gestão interativa\n"
-                    f"• {EMOJIS['aparencia']} **Aparência:** Troca de avatar, banner e nome do bot\n"
-                    f"• {EMOJIS['vip']} **VIP:** Painel interativo com calls, cargos e amigos (`{PREFIXO}vip`)\n"
-                    f"• 🛡️ **Permissões:** Cargos personalizados para cada módulo (`{PREFIXO}staff`)\n"
+                    f"• {EMOJIS['ban']} **Banimento:** Punições e unbans com GIF (`{PREFIXO}ban`)\n"
+                    f"• {EMOJIS['mute']} **Silenciamento:** Mute temporário (`{PREFIXO}mute`)\n"
+                    f"• {EMOJIS['clear']} **Limpeza:** Remoção em lote (`{PREFIXO}clear`)\n"
+                    f"• {EMOJIS['warn']} **Advertências:** Registro de warns (`{PREFIXO}warn`)\n"
+                    f"• 🔒 **Canais:** Trancar e modo lento (`{PREFIXO}lock`)\n"
+                    f"• {EMOJIS['logs']} **Auditoria:** Canal de registros da Staff (`{PREFIXO}setlogs`)"
+                ),
+                inline=False
+            )
+            embed_resposta.add_field(
+                name=f"{EMOJIS['categorias']}  Recursos, VIP & Atendimento",
+                value=(
+                    f"• {EMOJIS['ticket']} **Tickets:** Atendimento privado (`{PREFIXO}painelticket`)\n"
+                    f"• {EMOJIS['vip']} **VIP:** Painel interativo com calls e cargos (`{PREFIXO}vip`)\n"
+                    f"• 🏷️ **Cargos:** Criação via Modal e gestão (`{PREFIXO}cargos`)\n"
+                    f"• {EMOJIS['aparencia']} **Aparência:** Avatar, banner e nome (`{PREFIXO}nome_bot`)\n"
+                    f"• 👋 **Boas-Vindas:** Entrada e auto-role (`{PREFIXO}setwelcome`)\n"
+                    f"• 🛡️ **Permissões:** Cargos por módulo (`{PREFIXO}staff`)\n"
                     "• 🤖 **Inteligência Artificial:** Gemini ultra rápido sem prefixo"
                 ),
                 inline=False
@@ -659,20 +665,26 @@ class Painel(commands.Cog):
         if ctx.guild.icon:
             embed.set_thumbnail(url=ctx.guild.icon.url)
         embed.add_field(
-            name=f"{EMOJIS['categorias']}  Categorias do Sistema",
+            name=f"{EMOJIS['categorias']}  Moderação & Auditoria",
             value=(
-                f"• {EMOJIS['ban']} **Banimento:** Punições e desbanimentos com GIF\n"
-                f"• {EMOJIS['mute']} **Silenciamento:** Mute temporário configurável (`10m`, `2h`)\n"
-                f"• {EMOJIS['clear']} **Limpeza:** Remoção de mensagens em lote (`{PREFIXO}clear`)\n"
-                f"• {EMOJIS['warn']} **Advertências:** Registro e histórico de warns (`!warn`)\n"
-                "• 🔒 **Canais:** Trancar (`!lock`), liberar (`!unlock`) e slowmode\n"
-                f"• {EMOJIS['ticket']} **Tickets:** Atendimento privado interativo (`!painelticket`)\n"
-                "• 👋 **Boas-Vindas:** Mensagens de entrada e cargo automático (`!setwelcome`)\n"
-                f"• {EMOJIS['logs']} **Auditoria:** Canal de registros da Staff (`!setlogs`)\n"
-                "• 🏷️ **Cargos:** Criação via Modal e gestão interativa\n"
-                f"• {EMOJIS['aparencia']} **Aparência:** Troca de avatar, banner e nome do bot\n"
-                f"• {EMOJIS['vip']} **VIP:** Painel interativo com calls, cargos e amigos (`{PREFIXO}vip`)\n"
-                f"• 🛡️ **Permissões:** Cargos personalizados para cada módulo (`{PREFIXO}staff`)\n"
+                f"• {EMOJIS['ban']} **Banimento:** Punições e unbans com GIF (`{PREFIXO}ban`)\n"
+                f"• {EMOJIS['mute']} **Silenciamento:** Mute temporário (`{PREFIXO}mute`)\n"
+                f"• {EMOJIS['clear']} **Limpeza:** Remoção em lote (`{PREFIXO}clear`)\n"
+                f"• {EMOJIS['warn']} **Advertências:** Registro de warns (`{PREFIXO}warn`)\n"
+                f"• 🔒 **Canais:** Trancar e modo lento (`{PREFIXO}lock`)\n"
+                f"• {EMOJIS['logs']} **Auditoria:** Canal de registros da Staff (`{PREFIXO}setlogs`)"
+            ),
+            inline=False
+        )
+        embed.add_field(
+            name=f"{EMOJIS['categorias']}  Recursos, VIP & Atendimento",
+            value=(
+                f"• {EMOJIS['ticket']} **Tickets:** Atendimento privado (`{PREFIXO}painelticket`)\n"
+                f"• {EMOJIS['vip']} **VIP:** Painel interativo com calls e cargos (`{PREFIXO}vip`)\n"
+                f"• 🏷️ **Cargos:** Criação via Modal e gestão (`{PREFIXO}cargos`)\n"
+                f"• {EMOJIS['aparencia']} **Aparência:** Avatar, banner e nome (`{PREFIXO}nome_bot`)\n"
+                f"• 👋 **Boas-Vindas:** Entrada e auto-role (`{PREFIXO}setwelcome`)\n"
+                f"• 🛡️ **Permissões:** Cargos por módulo (`{PREFIXO}staff`)\n"
                 "• 🤖 **Inteligência Artificial:** Gemini ultra rápido sem prefixo"
             ),
             inline=False
@@ -692,6 +704,10 @@ class Painel(commands.Cog):
                 color=Cores.ERRO
             )
             await ctx.send(embed=embed, delete_after=TEMPO_DELETE_ERRO)
+        else:
+            print(f"⚠️ Erro ao executar !painel: {error}")
+            import traceback
+            traceback.print_exception(type(error), error, error.__traceback__)
 
     @commands.command(name="cores", aliases=["paleta", "cor"])
     @commands.has_permissions(administrator=True)
