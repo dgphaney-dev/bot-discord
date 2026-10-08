@@ -1,51 +1,51 @@
-# 🤖 Bot Discord Modular & Profissional
+# Bot Discord Modular & Profissional
 
 Bot completo para Discord em Python, desenvolvido com arquitetura modular de **Cogs**, interface rica com **Discord UI (Modais, Seletores, Botões Interativos)**, integração com **Google Gemini AI**, badges oficiais e sistema de permissões estritas por cargo.
 
 ---
 
-## 🚀 Funcionalidades Principais
+## Funcionalidades Principais
 
-- **👑 Gestão de Staff & Permissões Estritas (`!staff`):**
+- **Gestão de Staff & Permissões Estritas (`!staff`):**
   - Painel interativo com 3 páginas para configurar cargos autorizados em cada módulo.
   - Botão de aplicação em lote (*Aplicar nesta Página*).
   - Modo 100% estrito: somente quem possui os cargos cadastrados pode usar as ações do bot.
 
-- **💎 Sistema VIP Avançado (`!setvip`, `!vip`, `!painelvip`):**
+- **Sistema VIP Avançado (`!setvip`, `!vip`, `!painelvip`):**
   - Atribuição com seleção de dias via Modal interativo (`30`, `60`, `365` ou `0` para permanente).
   - Verificação e expiração automática de VIPs em segundo plano (remove cargos, call privada e avisa na DM).
   - Cargos personalizados com nome e cor hex editáveis pelo próprio membro VIP.
   - Vagas de amigos configuráveis por plano.
 
-- **👤 Informações & Perfis (`!userinfo`, `!serverinfo`, `!avatar`, `!userbanner`):**
+- **Informações & Perfis (`!userinfo`, `!serverinfo`, `!avatar`, `!userbanner`):**
   - Busca de qualquer usuário no Discord por **ID direto**, menção ou nome.
   - Exibição de **Badges Oficiais do Discord** lado a lado no perfil (*Server Booster, Nitro, Legacy Username, HypeSquad, Active Developer, etc.*).
   - Cálculo exato da evolução do Server Booster: distintivo atual, próximo nível, dias restantes e barra de progresso.
 
-- **🔨 Moderação Completa & Auditoria:**
+- **Moderação Completa & Auditoria:**
   - `!ban`, `!unban`, `!kick`, `!mute`, `!unmute`.
   - Sistema de advertências (`!warn`, `!warns`, `!unwarn`).
   - Canal de registros e auditoria da Staff (`!setlogs`).
 
-- **🔒 Gestão de Canais & Suporte:**
+- **Gestão de Canais & Suporte:**
   - `!lock` e `!unlock` para trancar/destrancar canais de texto.
   - `!slowmode` para controle de fluxo.
   - Central de tickets privada com criação de canais em categoria e encerramento com botão (`!painelticket`).
 
-- **👋 Boas-Vindas & Auto-Role:**
+- **Boas-Vindas & Auto-Role:**
   - Mensagens de entrada customizadas (`!setwelcome`).
   - Entrega automática de cargo inicial para novos membros (`!setautorole`).
 
-- **🤖 Inteligência Artificial (Google Gemini):**
+- **Inteligência Artificial (Google Gemini):**
   - Respostas descontraídas e sem textão marcando o bot ou respondendo mensagens.
   - Gerenciamento de personagens e personalidades (`!personagem`).
 
-- **🛡️ AutoMod:**
+- **AutoMod:**
   - Proteção automática contra convites não autorizados, links suspeitos e spam.
 
 ---
 
-## 📁 Estrutura do Projeto
+## Estrutura do Projeto
 
 ```text
 ├── cogs/                  # Módulos independentes do bot
@@ -77,7 +77,7 @@ Bot completo para Discord em Python, desenvolvido com arquitetura modular de **C
 
 ---
 
-## 🛠️ Instalação e Execução
+## Instalação e Execução
 
 ### 1. Clonar o repositório
 ```bash
@@ -106,5 +106,5 @@ python main.py
 
 ---
 
-## 🛡️ Segurança & Privacidade
+## Segurança & Privacidade
 O arquivo `.env` está incluído no `.gitignore` e **nunca** deve ser versionado ou compartilhado publicamente para proteger suas credenciais e tokens.
