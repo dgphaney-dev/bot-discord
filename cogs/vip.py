@@ -8,7 +8,6 @@ import discord
 from discord.ext import commands, tasks
 from config import (
     Cores,
-    EMOJIS,
     TEMPO_DELETE_ERRO,
     TEMPO_DELETE_SUCESSO,
     TEMPO_DELETE_VIP,
@@ -1151,7 +1150,7 @@ class VIP(commands.Cog):
         amigos_adicionados = dados_user.get("amigos", [])
 
         embed = discord.Embed(
-            title=f"{EMOJIS['vip']}  PAINEL DE CONTROLE VIP",
+            title="👑  PAINEL DE CONTROLE VIP",
             description=(
                 f"> Seja bem-vindo à sua central exclusiva, {ctx.author.mention}!\n"
                 f"> Personalize seu cargo, configure sua call privada e gerencie amigos abaixo.\n\n"
@@ -1166,7 +1165,7 @@ class VIP(commands.Cog):
             limite_amigos = VIP_LIMITES_AMIGOS.get(nivel_atual, 1)
 
             embed.add_field(
-                name=f"{EMOJIS['vip']}  Seu Plano Ativo",
+                name="💎  Seu Plano Ativo",
                 value=f"```fix\n{nome_vip}\n```",
                 inline=True
             )

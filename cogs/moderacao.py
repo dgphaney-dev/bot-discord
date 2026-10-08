@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 import discord
 from discord.ext import commands
-from config import CARGO_MUTE_NOME, Cores, EMOJIS, TEMPO_DELETE_ERRO, TEMPO_DELETE_SUCESSO
+from config import CARGO_MUTE_NOME, Cores, TEMPO_DELETE_ERRO, TEMPO_DELETE_SUCESSO
 from utils.helpers import (
     converter_tempo,
     formatar_segundos,
@@ -216,7 +216,7 @@ class Moderacao(commands.Cog):
         # 6. Embed de confirmação
         tempo_formatado = formatar_segundos(segundos)
         embed_mute = discord.Embed(
-            title=f"{EMOJIS['mute']}  MEMBRO SILENCIADO",
+            title="🔇  MEMBRO SILENCIADO",
             description=(
                 f"> O membro {membro.mention} foi punido e teve suas permissões de fala temporariamente revogadas.\n\n"
                 "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
@@ -458,7 +458,7 @@ class Moderacao(commands.Cog):
             )
 
             embed_ban = discord.Embed(
-                title=f"{EMOJIS['ban']}  MEMBRO BANIDO DO SERVIDOR",
+                title="🔨  MEMBRO BANIDO DO SERVIDOR",
                 description=(
                     f"> O infrator {membro.mention} foi banido permanentemente.\n\n"
                     "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
@@ -466,7 +466,7 @@ class Moderacao(commands.Cog):
                 color=Cores.ERRO
             )
             embed_ban.set_author(name=f"Punição Aplicada • {ctx.guild.name}", icon_url=ctx.guild.icon.url if ctx.guild.icon else None)
-            embed_ban.add_field(name=f"{EMOJIS['ban']}  Membro Banido", value=f"{membro.mention}\n`@{membro.name}`", inline=True)
+            embed_ban.add_field(name="👤  Membro Banido", value=f"{membro.mention}\n`@{membro.name}`", inline=True)
             embed_ban.add_field(name="🛡️  Moderador", value=f"{ctx.author.mention}\n`@{ctx.author.name}`", inline=True)
             embed_ban.add_field(name="🆔  ID do Membro", value=f"`{membro.id}`", inline=True)
             embed_ban.add_field(name="📋  Motivo do Banimento", value=f"```yaml\n{motivo}\n```", inline=False)

@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 import discord
 from discord.ext import commands
-from config import Cores, EMOJIS, TEMPO_DELETE_ERRO, TEMPO_DELETE_SUCESSO
+from config import Cores, TEMPO_DELETE_ERRO, TEMPO_DELETE_SUCESSO
 from utils.helpers import tem_permissao_acao, tentar_deletar_mensagem
 
 ARQUIVO_CANAL_LOGS = Path(__file__).resolve().parent.parent / "data" / "logs_config.json"
@@ -52,7 +52,7 @@ class Logs(commands.Cog):
         salvar_config_logs(self.config_logs)
 
         embed = discord.Embed(
-            title=f"{EMOJIS['logs']}  Canal de Logs Configurado",
+            title="📋 Canal de Logs Configurado",
             description=(
                 f"O canal {canal_alvo.mention} agora é o canal oficial de **Auditoria & Logs** da Staff!\n\n"
                 "Todas as ações de moderação (ban, kick, mute, warn, lock) serão registradas lá automaticamente."

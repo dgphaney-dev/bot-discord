@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 import discord
 from discord.ext import commands
-from config import Cores, EMOJIS, TEMPO_DELETE_ERRO, TEMPO_DELETE_SUCESSO
+from config import Cores, TEMPO_DELETE_ERRO, TEMPO_DELETE_SUCESSO
 from utils.helpers import tem_permissao_acao, tentar_deletar_mensagem
 
 ARQUIVO_TICKETS = Path(__file__).resolve().parent.parent / "data" / "tickets_config.json"
@@ -28,12 +28,7 @@ class ViewBotaoTicket(discord.ui.View):
     def __init__(self):
         super().__init__(timeout=None)
 
-    @discord.ui.button(
-        label="Abrir Atendimento",
-        style=discord.ButtonStyle.primary,
-        emoji=discord.PartialEmoji.from_str(EMOJIS["ticket"]),
-        custom_id="btn_abrir_ticket_geral"
-    )
+    @discord.ui.button(label="Abrir Atendimento", style=discord.ButtonStyle.primary, emoji="📩", custom_id="btn_abrir_ticket_geral")
     async def abrir_ticket(self, interaction: discord.Interaction, button: discord.ui.Button):
         guild = interaction.guild
         user = interaction.user
@@ -84,7 +79,7 @@ class ViewBotaoTicket(discord.ui.View):
             )
 
             embed = discord.Embed(
-                title=f"{EMOJIS['ticket']}  ATENDIMENTO INICIADO",
+                title="📩  ATENDIMENTO INICIADO",
                 description=(
                     f"> Olá {user.mention}, seja muito bem-vindo ao seu canal privado de suporte!\n\n"
                     "• Descreva detalhadamente sua dúvida, problema ou comprovante de VIP.\n"
@@ -142,10 +137,10 @@ class Tickets(commands.Cog):
             return
 
         embed = discord.Embed(
-            title=f"{EMOJIS['ticket']}  CENTRAL DE SUPORTE & ATENDIMENTO",
+            title="🎟️  CENTRAL DE SUPORTE & ATENDIMENTO",
             description=(
                 "> Precisa de ajuda, suporte sobre VIPs ou deseja falar com a Staff?\n\n"
-                f"• Clique no botão **`Abrir Atendimento`** abaixo para iniciar um chat privado.\n"
+                "• Clique no botão **`📩 Abrir Atendimento`** abaixo para iniciar um chat privado.\n"
                 "• Apenas você e a equipe de Staff terão acesso ao canal.\n\n"
                 "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
             ),
