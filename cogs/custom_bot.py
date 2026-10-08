@@ -4,6 +4,7 @@ import discord
 from discord.ext import commands
 from config import (
     Cores,
+    EMOJIS,
     PREFIXO,
     STATUS_DISCORD,
     TEMPO_DELETE_ERRO,
@@ -152,7 +153,7 @@ class Customizacao(commands.Cog):
             await msg_processando.delete()
 
             embed_sucesso = discord.Embed(
-                title="🖼️ Avatar Atualizado com Sucesso!",
+                title=f"{EMOJIS['aparencia']}  Avatar Atualizado com Sucesso!",
                 description=f"A foto de perfil do bot foi alterada por {ctx.author.mention}.",
                 color=Cores.SUCESSO
             )
@@ -423,7 +424,7 @@ class Customizacao(commands.Cog):
             await msg_processando.delete()
 
             embed_sucesso = discord.Embed(
-                title="📛 Nome Alterado com Sucesso!",
+                title=f"{EMOJIS['aparencia']}  Nome Alterado com Sucesso!",
                 description=f"O nome do bot foi alterado por {ctx.author.mention}.",
                 color=Cores.SUCESSO
             )

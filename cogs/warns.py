@@ -3,7 +3,7 @@ from pathlib import Path
 import time
 import discord
 from discord.ext import commands
-from config import Cores, TEMPO_DELETE_ERRO, TEMPO_DELETE_SUCESSO
+from config import Cores, EMOJIS, TEMPO_DELETE_ERRO, TEMPO_DELETE_SUCESSO
 from utils.helpers import tem_permissao_acao, tentar_deletar_mensagem
 
 ARQUIVO_WARNS = Path(__file__).resolve().parent.parent / "data" / "warns.json"
@@ -77,7 +77,7 @@ class Warns(commands.Cog):
         # Envia aviso na DM
         try:
             embed_dm = discord.Embed(
-                title=f"⚠️ Você recebeu uma advertência em {ctx.guild.name}",
+                title=f"{EMOJIS['warn']} Você recebeu uma advertência em {ctx.guild.name}",
                 description=f"**Motivo:** {motivo}\n**Total de Advertências:** `{total_warns}`",
                 color=Cores.AVISO
             )
@@ -86,7 +86,7 @@ class Warns(commands.Cog):
             pass
 
         embed = discord.Embed(
-            title="⚠️  ADVERTÊNCIA REGISTRADA",
+            title=f"{EMOJIS['warn']}  ADVERTÊNCIA REGISTRADA",
             description=(
                 f"> O membro {membro.mention} recebeu uma advertência oficial da moderação.\n\n"
                 "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
@@ -107,7 +107,7 @@ class Warns(commands.Cog):
         cog_logs = self.bot.get_cog("Logs")
         if cog_logs:
             embed_log = discord.Embed(
-                title="⚠️ Membro Advertido (Warn)",
+                title=f"{EMOJIS['warn']} Membro Advertido (Warn)",
                 description=f"{membro.mention} recebeu a advertência #{nova_warn['id']} de {ctx.author.mention}.\n**Motivo:** {motivo}",
                 color=Cores.AVISO
             )

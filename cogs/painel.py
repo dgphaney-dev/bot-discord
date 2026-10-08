@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from config import Cores, PREFIXO, TEMPO_DELETE_ERRO, VIP_CORES
+from config import Cores, EMOJIS, PREFIXO, TEMPO_DELETE_ERRO, VIP_CORES
 from utils.helpers import tentar_deletar_mensagem
 
 
@@ -10,13 +10,13 @@ class MenuPainel(discord.ui.Select):
             discord.SelectOption(
                 label="Página Inicial",
                 description="Retorna à visão geral do painel",
-                emoji="🏡",
+                emoji=discord.PartialEmoji.from_str(EMOJIS["central"]),
                 value="inicio"
             ),
             discord.SelectOption(
                 label="Banimento (Ban/Unban)",
                 description="Comandos para banir e desbanir membros",
-                emoji="🔨",
+                emoji=discord.PartialEmoji.from_str(EMOJIS["ban"]),
                 value="ban"
             ),
             discord.SelectOption(
@@ -28,13 +28,13 @@ class MenuPainel(discord.ui.Select):
             discord.SelectOption(
                 label="Silenciamento (Mute/Unmute)",
                 description="Comandos para silenciar e remover silêncio",
-                emoji="🔇",
+                emoji=discord.PartialEmoji.from_str(EMOJIS["mute"]),
                 value="mute"
             ),
             discord.SelectOption(
                 label="Limpeza de Chat (Clear)",
                 description="Comandos de remoção de mensagens em massa",
-                emoji="🧹",
+                emoji=discord.PartialEmoji.from_str(EMOJIS["clear"]),
                 value="purge"
             ),
             discord.SelectOption(
@@ -46,13 +46,13 @@ class MenuPainel(discord.ui.Select):
             discord.SelectOption(
                 label="Aparência do Bot",
                 description="Alterar nome e avatar do bot",
-                emoji="⚙️",
+                emoji=discord.PartialEmoji.from_str(EMOJIS["aparencia"]),
                 value="customizacao"
             ),
             discord.SelectOption(
                 label="Sistema VIP",
                 description="Painel exclusivo e vantagens VIP",
-                emoji="💎",
+                emoji=discord.PartialEmoji.from_str(EMOJIS["vip"]),
                 value="vip"
             ),
             discord.SelectOption(
@@ -70,7 +70,7 @@ class MenuPainel(discord.ui.Select):
             discord.SelectOption(
                 label="Advertências (Warns)",
                 description="Aplicar, listar e remover advertências de membros",
-                emoji="⚠️",
+                emoji=discord.PartialEmoji.from_str(EMOJIS["warn"]),
                 value="warns"
             ),
             discord.SelectOption(
@@ -82,7 +82,7 @@ class MenuPainel(discord.ui.Select):
             discord.SelectOption(
                 label="Sistema de Tickets",
                 description="Painel de suporte e atendimento privado",
-                emoji="🎟️",
+                emoji=discord.PartialEmoji.from_str(EMOJIS["ticket"]),
                 value="tickets"
             ),
             discord.SelectOption(
@@ -94,7 +94,7 @@ class MenuPainel(discord.ui.Select):
             discord.SelectOption(
                 label="Auditoria & Logs",
                 description="Canal oficial para registros e histórico da Staff",
-                emoji="📋",
+                emoji=discord.PartialEmoji.from_str(EMOJIS["logs"]),
                 value="logs"
             ),
             discord.SelectOption(
@@ -125,7 +125,7 @@ class MenuPainel(discord.ui.Select):
 
         if opcao == "inicio":
             embed_resposta = discord.Embed(
-                title="⚡  CENTRAL DE COMANDOS & AJUDA",
+                title=f"{EMOJIS['central']}  CENTRAL DE COMANDOS & AJUDA",
                 description=(
                     f"> Olá {interaction.user.mention}, seja muito bem-vindo à central oficial de ajuda!\n"
                     f"> Navegue através do menu abaixo para consultar sintaxes, permissões e exemplos.\n\n"
@@ -137,19 +137,19 @@ class MenuPainel(discord.ui.Select):
             if interaction.guild.icon:
                 embed_resposta.set_thumbnail(url=interaction.guild.icon.url)
             embed_resposta.add_field(
-                name="📁  Categorias do Sistema",
+                name=f"{EMOJIS['categorias']}  Categorias do Sistema",
                 value=(
-                    "• 🔨 **Banimento:** Punições e desbanimentos com GIF\n"
-                    "• 🔇 **Silenciamento:** Mute temporário configurável (`10m`, `2h`)\n"
-                    f"• 🧹 **Limpeza:** Remoção de mensagens em lote (`{PREFIXO}clear`)\n"
-                    "• ⚠️ **Advertências:** Registro e histórico de warns (`!warn`)\n"
+                    f"• {EMOJIS['ban']} **Banimento:** Punições e desbanimentos com GIF\n"
+                    f"• {EMOJIS['mute']} **Silenciamento:** Mute temporário configurável (`10m`, `2h`)\n"
+                    f"• {EMOJIS['clear']} **Limpeza:** Remoção de mensagens em lote (`{PREFIXO}clear`)\n"
+                    f"• {EMOJIS['warn']} **Advertências:** Registro e histórico de warns (`!warn`)\n"
                     "• 🔒 **Canais:** Trancar (`!lock`), liberar (`!unlock`) e slowmode\n"
-                    "• 🎟️ **Tickets:** Atendimento privado interativo (`!painelticket`)\n"
+                    f"• {EMOJIS['ticket']} **Tickets:** Atendimento privado interativo (`!painelticket`)\n"
                     "• 👋 **Boas-Vindas:** Mensagens de entrada e cargo automático (`!setwelcome`)\n"
-                    "• 📋 **Auditoria:** Canal de registros da Staff (`!setlogs`)\n"
+                    f"• {EMOJIS['logs']} **Auditoria:** Canal de registros da Staff (`!setlogs`)\n"
                     f"• 🏷️ **Cargos:** Criação via Modal e gestão interativa\n"
-                    "• ⚙️ **Aparência:** Troca de avatar, banner e nome do bot\n"
-                    f"• 💎 **VIP:** Painel interativo com calls, cargos e amigos (`{PREFIXO}vip`)\n"
+                    f"• {EMOJIS['aparencia']} **Aparência:** Troca de avatar, banner e nome do bot\n"
+                    f"• {EMOJIS['vip']} **VIP:** Painel interativo com calls, cargos e amigos (`{PREFIXO}vip`)\n"
                     f"• 🛡️ **Permissões:** Cargos personalizados para cada módulo (`{PREFIXO}staff`)\n"
                     "• 🤖 **Inteligência Artificial:** Gemini ultra rápido sem prefixo"
                 ),
@@ -160,7 +160,7 @@ class MenuPainel(discord.ui.Select):
 
         elif opcao == "ban":
             embed_resposta = discord.Embed(
-                title="🔨  MODERAÇÃO: BANIMENTO",
+                title=f"{EMOJIS['ban']}  MODERAÇÃO: BANIMENTO",
                 description=(
                     "Mantenha o servidor protegido aplicando punições severas a infratores.\n"
                     "──────────────────────────────────────────────"
@@ -168,7 +168,7 @@ class MenuPainel(discord.ui.Select):
                 color=Cores.ERRO
             )
             embed_resposta.add_field(
-                name="🔨  Banir Membro",
+                name=f"{EMOJIS['ban']}  Banir Membro",
                 value=(
                     f"```fix\n{PREFIXO}ban <@membro> [motivo]\n```"
                     f"• **Exemplo:** `{PREFIXO}ban @Infrator Divulgação indevida no chat`"
@@ -230,7 +230,7 @@ class MenuPainel(discord.ui.Select):
 
         elif opcao == "mute":
             embed_resposta = discord.Embed(
-                title="🔇  MODERAÇÃO: SILENCIAMENTO (MUTE)",
+                title=f"{EMOJIS['mute']}  MODERAÇÃO: SILENCIAMENTO (MUTE)",
                 description=(
                     "Retire temporariamente o acesso de fala e chat de membros bagunceiros.\n"
                     "──────────────────────────────────────────────"
@@ -238,7 +238,7 @@ class MenuPainel(discord.ui.Select):
                 color=Cores.MODERACAO
             )
             embed_resposta.add_field(
-                name="🔇  Silenciar Membro",
+                name=f"{EMOJIS['mute']}  Silenciar Membro",
                 value=(
                     f"```fix\n{PREFIXO}mute <@membro> <tempo> [motivo]\n```"
                     f"• **Exemplo:** `{PREFIXO}mute @Membro 30m Flood de mensagens`"
@@ -267,7 +267,7 @@ class MenuPainel(discord.ui.Select):
 
         elif opcao == "purge":
             embed_resposta = discord.Embed(
-                title="🧹  UTILITÁRIOS: LIMPEZA DE CHAT",
+                title=f"{EMOJIS['clear']}  UTILITÁRIOS: LIMPEZA DE CHAT",
                 description=(
                     "Apague mensagens em massa para manter os canais organizados.\n"
                     "──────────────────────────────────────────────"
@@ -275,7 +275,7 @@ class MenuPainel(discord.ui.Select):
                 color=Cores.INFO
             )
             embed_resposta.add_field(
-                name="🧹  Limpar Mensagens",
+                name=f"{EMOJIS['clear']}  Limpar Mensagens",
                 value=(
                     f"```fix\n{PREFIXO}clear <quantidade>\n```"
                     f"• **Aliases:** `{PREFIXO}limpar`, `{PREFIXO}clean`\n"
@@ -314,7 +314,7 @@ class MenuPainel(discord.ui.Select):
 
         elif opcao == "customizacao":
             embed_resposta = discord.Embed(
-                title="⚙️  CUSTOMIZAÇÃO: APARÊNCIA DO BOT",
+                title=f"{EMOJIS['aparencia']}  CUSTOMIZAÇÃO: APARÊNCIA DO BOT",
                 description=(
                     "Personalize o visual e a identidade do bot diretamente pelo servidor.\n"
                     "──────────────────────────────────────────────"
@@ -332,7 +332,7 @@ class MenuPainel(discord.ui.Select):
                 inline=False
             )
             embed_resposta.add_field(
-                name="📛  Nome do Bot",
+                name=f"{EMOJIS['aparencia']}  Nome do Bot",
                 value=f"`{PREFIXO}nome_bot <novo_nome>`\n*Altera o username global do bot no Discord.*",
                 inline=False
             )
@@ -345,7 +345,7 @@ class MenuPainel(discord.ui.Select):
 
         elif opcao == "vip":
             embed_resposta = discord.Embed(
-                title="💎  VANTAGENS: SISTEMA VIP",
+                title=f"{EMOJIS['vip']}  VANTAGENS: SISTEMA VIP",
                 description=(
                     "Painel interativo e benefícios exclusivos para membros VIP.\n"
                     "──────────────────────────────────────────────"
@@ -353,7 +353,7 @@ class MenuPainel(discord.ui.Select):
                 color=discord.Color.from_str("#00E5FF")
             )
             embed_resposta.add_field(
-                name="👑  Painel Interativo VIP",
+                name=f"{EMOJIS['vip']}  Painel Interativo VIP",
                 value=(
                     f"```fix\n{PREFIXO}vip\n```"
                     "• **Configurar Cargo:** Abre modal para nome e cor hexadecimal\n"
@@ -432,7 +432,7 @@ class MenuPainel(discord.ui.Select):
 
         elif opcao == "warns":
             embed_resposta = discord.Embed(
-                title="⚠️  SISTEMA DE ADVERTÊNCIAS (WARNS)",
+                title=f"{EMOJIS['warn']}  SISTEMA DE ADVERTÊNCIAS (WARNS)",
                 description=(
                     "Gerencie advertências e histórico disciplinar de membros do servidor.\n"
                     "──────────────────────────────────────────────"
@@ -440,7 +440,7 @@ class MenuPainel(discord.ui.Select):
                 color=Cores.AVISO
             )
             embed_resposta.add_field(
-                name="📌  Comando: Advertir Membro",
+                name=f"{EMOJIS['warn']}  Comando: Advertir Membro",
                 value=(
                     f"```fix\n{PREFIXO}warn @Membro <motivo>\n```"
                     "• Registra advertência com ID único e notifica o usuário via DM."
@@ -502,7 +502,7 @@ class MenuPainel(discord.ui.Select):
 
         elif opcao == "tickets":
             embed_resposta = discord.Embed(
-                title="🎟️  CENTRAL DE TICKETS & ATENDIMENTO",
+                title=f"{EMOJIS['ticket']}  CENTRAL DE TICKETS & ATENDIMENTO",
                 description=(
                     "Sistema profissional de atendimento privado individualizado com suporte a categorias.\n"
                     "──────────────────────────────────────────────"
@@ -510,7 +510,7 @@ class MenuPainel(discord.ui.Select):
                 color=Cores.INFO
             )
             embed_resposta.add_field(
-                name="📩  Enviar Painel de Atendimento",
+                name=f"{EMOJIS['ticket']}  Enviar Painel de Atendimento",
                 value=(
                     f"```fix\n{PREFIXO}painelticket\n```"
                     "• Envia no canal o embed oficial com o botão `Abrir Atendimento`."
@@ -557,7 +557,7 @@ class MenuPainel(discord.ui.Select):
 
         elif opcao == "logs":
             embed_resposta = discord.Embed(
-                title="📋  AUDITORIA & LOGS DE STAFF",
+                title=f"{EMOJIS['logs']}  AUDITORIA & LOGS DE STAFF",
                 description=(
                     "Monitore todas as ações administrativas executadas pela moderação em tempo real.\n"
                     "──────────────────────────────────────────────"
@@ -565,7 +565,7 @@ class MenuPainel(discord.ui.Select):
                 color=Cores.INFO
             )
             embed_resposta.add_field(
-                name="📋  Definir Canal de Registros",
+                name=f"{EMOJIS['logs']}  Definir Canal de Registros",
                 value=(
                     f"```fix\n{PREFIXO}setlogs [#canal]\n```"
                     "• Define o canal onde todos os relatórios de auditoria serão postados."
@@ -647,7 +647,7 @@ class Painel(commands.Cog):
         await tentar_deletar_mensagem(ctx)
 
         embed = discord.Embed(
-            title="⚡  CENTRAL DE COMANDOS & AJUDA",
+            title=f"{EMOJIS['central']}  CENTRAL DE COMANDOS & AJUDA",
             description=(
                 f"> Olá {ctx.author.mention}, seja muito bem-vindo à central oficial de comandos!\n"
                 f"> Navegue pelo menu de seleção abaixo para consultar sintaxes e exemplos.\n\n"
@@ -659,19 +659,19 @@ class Painel(commands.Cog):
         if ctx.guild.icon:
             embed.set_thumbnail(url=ctx.guild.icon.url)
         embed.add_field(
-            name="📁  Categorias do Sistema",
+            name=f"{EMOJIS['categorias']}  Categorias do Sistema",
             value=(
-                "• 🔨 **Banimento:** Punições e desbanimentos com GIF\n"
-                "• 🔇 **Silenciamento:** Mute temporário configurável (`10m`, `2h`)\n"
-                f"• 🧹 **Limpeza:** Remoção de mensagens em lote (`{PREFIXO}clear`)\n"
-                "• ⚠️ **Advertências:** Registro e histórico de warns (`!warn`)\n"
+                f"• {EMOJIS['ban']} **Banimento:** Punições e desbanimentos com GIF\n"
+                f"• {EMOJIS['mute']} **Silenciamento:** Mute temporário configurável (`10m`, `2h`)\n"
+                f"• {EMOJIS['clear']} **Limpeza:** Remoção de mensagens em lote (`{PREFIXO}clear`)\n"
+                f"• {EMOJIS['warn']} **Advertências:** Registro e histórico de warns (`!warn`)\n"
                 "• 🔒 **Canais:** Trancar (`!lock`), liberar (`!unlock`) e slowmode\n"
-                "• 🎟️ **Tickets:** Atendimento privado interativo (`!painelticket`)\n"
+                f"• {EMOJIS['ticket']} **Tickets:** Atendimento privado interativo (`!painelticket`)\n"
                 "• 👋 **Boas-Vindas:** Mensagens de entrada e cargo automático (`!setwelcome`)\n"
-                "• 📋 **Auditoria:** Canal de registros da Staff (`!setlogs`)\n"
-                f"• 🏷️ **Cargos:** Criação via Modal e gestão interativa\n"
-                "• ⚙️ **Aparência:** Troca de avatar, banner e nome do bot\n"
-                f"• 💎 **VIP:** Painel interativo com calls, cargos e amigos (`{PREFIXO}vip`)\n"
+                f"• {EMOJIS['logs']} **Auditoria:** Canal de registros da Staff (`!setlogs`)\n"
+                "• 🏷️ **Cargos:** Criação via Modal e gestão interativa\n"
+                f"• {EMOJIS['aparencia']} **Aparência:** Troca de avatar, banner e nome do bot\n"
+                f"• {EMOJIS['vip']} **VIP:** Painel interativo com calls, cargos e amigos (`{PREFIXO}vip`)\n"
                 f"• 🛡️ **Permissões:** Cargos personalizados para cada módulo (`{PREFIXO}staff`)\n"
                 "• 🤖 **Inteligência Artificial:** Gemini ultra rápido sem prefixo"
             ),

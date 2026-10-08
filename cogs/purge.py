@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from config import Cores, LIMITE_PURGE_MAX, TEMPO_DELETE_ERRO, TEMPO_DELETE_SUCESSO
+from config import Cores, EMOJIS, LIMITE_PURGE_MAX, TEMPO_DELETE_ERRO, TEMPO_DELETE_SUCESSO
 from utils.helpers import tem_permissao_acao, tentar_deletar_mensagem
 
 
@@ -45,7 +45,7 @@ class Limpar(commands.Cog):
             total_apagadas = len(apagadas)
 
             embed = discord.Embed(
-                title="🧹  LIMPEZA DE CHAT CONCLUÍDA",
+                title=f"{EMOJIS['clear']}  LIMPEZA DE CHAT CONCLUÍDA",
                 description=(
                     f"> Foram removidas **{total_apagadas} mensagens** no canal {ctx.channel.mention}!\n\n"
                     "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"

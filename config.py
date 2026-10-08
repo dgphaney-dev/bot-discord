@@ -92,6 +92,23 @@ class Cores:
     VIP = obter_cor("COR_EMBED_VIP", "#F47FFF")           # Rosa Nitro premium
 
 # ========================================================
+# EMOJIS PERSONALIZADOS DO SERVIDOR (CONFIGURAÇÃO CENTRAL)
+# ========================================================
+EMOJIS = {
+    "ban": "<:LINKSBR_banido:1087395292929863750>",
+    "mute": "<a:animated_Microphone_Mute:1478387481844912272>",
+    "clear": "<:pureza_i:1188898571890737162>",
+    "warn": "<:SvAviso_icon:979957514466656256>",
+    "ticket": "<:Icon_Ticket:1495961852893462568>",
+    "logs": "<:pureza_i:1169319223001092158>",
+    "aparencia": "<:Badge_Early_VerifiedBotDeveloper:947493615154913330>",
+    "vip": "<a:RedDiamond:1543016729461002451>",
+    "categorias": "<:stack:1455353284335374521>",
+    "central": "<a:yellow_raio:1009298847803113493>",
+}
+
+
+# ========================================================
 # CONFIGURAÇÕES DE MODERAÇÃO E SISTEMA
 # ========================================================
 CARGO_MUTE_NOME = os.getenv("CARGO_MUTE_NOME", "Mutado")

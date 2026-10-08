@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 import discord
 from discord.ext import commands
-from config import Cores, TEMPO_DELETE_ERRO, TEMPO_DELETE_SUCESSO
+from config import Cores, EMOJIS, TEMPO_DELETE_ERRO, TEMPO_DELETE_SUCESSO
 from utils.helpers import tem_permissao_acao, tentar_deletar_mensagem
 
 ARQUIVO_TICKETS = Path(__file__).resolve().parent.parent / "data" / "tickets_config.json"
@@ -28,7 +28,12 @@ class ViewBotaoTicket(discord.ui.View):
     def __init__(self):
         super().__init__(timeout=None)
 
-    @discord.ui.button(label="Abrir Atendimento", style=discord.ButtonStyle.primary, emoji="📩", custom_id="btn_abrir_ticket_geral")
+    @discord.ui.button(
+        label="Abrir Atendimento",
+        style=discord.ButtonStyle.primary,
+        emoji=discord.PartialEmoji.from_str(EMOJIS["ticket"]),
+        custom_id="btn_abrir_ticket_geral"
+    )
     async def abrir_ticket(self, interaction: discord.Interaction, button: discord.ui.Button):
         guild = interaction.guild
         user = interaction.user
@@ -79,7 +84,7 @@ class ViewBotaoTicket(discord.ui.View):
             )
 
             embed = discord.Embed(
-                title="📩  ATENDIMENTO INICIADO",
+                title=f"{EMOJIS['ticket']}  ATENDIMENTO INICIADO",
                 description=(
                     f"> Olá {user.mention}, seja muito bem-vindo ao seu canal privado de suporte!\n\n"
                     "• Descreva detalhadamente sua dúvida, problema ou comprovante de VIP.\n"
@@ -88,7 +93,7 @@ class ViewBotaoTicket(discord.ui.View):
                 ),
                 color=Cores.INFO
             )
-            embed.set_author(name=f"Ticket #{ticket_num} • {user.display_name}", icon_url=user.display_avatar.url)
+            embed.set_author(name=f"Atendimento Privado • {user.display_name}", icon_url=user.display_avatar.url)
             embed.set_thumbnail(url=user.display_avatar.url)
             embed.set_footer(text="Para encerrar o atendimento, clique no botão vermelho abaixo.")
             embed.timestamp = discord.utils.utcnow()
@@ -137,10 +142,10 @@ class Tickets(commands.Cog):
             return
 
         embed = discord.Embed(
-            title="🎟️  CENTRAL DE SUPORTE & ATENDIMENTO",
+            title=f"{EMOJIS['ticket']}  CENTRAL DE SUPORTE & ATENDIMENTO",
             description=(
                 "> Precisa de ajuda, suporte sobre VIPs ou deseja falar com a Staff?\n\n"
-                "• Clique no botão **`📩 Abrir Atendimento`** abaixo para iniciar um chat privado.\n"
+                f"• Clique no botão **`Abrir Atendimento`** abaixo para iniciar um chat privado.\n"
                 "• Apenas você e a equipe de Staff terão acesso ao canal.\n\n"
                 "⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
             ),
