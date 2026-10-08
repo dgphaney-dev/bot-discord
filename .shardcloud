@@ -1,0 +1,5 @@
+DISPLAY_NAME=Aspas Bot
+DESCRIPTION=Bot Discord Modular com Cogs, VIP, Moderacao, Badges e IA
+MAIN=main.py
+MEMORY=256
+VERSION=recommended
