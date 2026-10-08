@@ -337,7 +337,6 @@ class Moderacao(commands.Cog):
             embed_unmute.set_author(name=f"Moderação • {ctx.guild.name}", icon_url=ctx.guild.icon.url if ctx.guild.icon else None)
             embed_unmute.add_field(name="👤  Membro", value=f"{membro.mention}\n`@{membro.name}`", inline=True)
             embed_unmute.add_field(name="🛡️  Moderador", value=f"{ctx.author.mention}\n`@{ctx.author.name}`", inline=True)
-            embed_unmute.add_field(name="📋  Status", value="```diff\n+ Fala Liberada\n```", inline=True)
 
             avatar_membro = obter_avatar_url(membro)
             if avatar_membro:
