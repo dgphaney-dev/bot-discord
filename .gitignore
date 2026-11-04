@@ -38,3 +38,7 @@ Thumbs.db
 scratch/
 test_patch.py
 *.zip
+node_modules/
+**/node_modules/
+dist/
+**/dist/

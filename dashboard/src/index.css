@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    background-color: #08080b;
+    color: #e2e8f0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    overflow-x: hidden;
+  }
+}
+
+/* Custom Cyber Glow & Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0d0e12;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #272733;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ef4444;
+}
+
+.glow-red {
+  box-shadow: 0 0 25px rgba(239, 68, 68, 0.15);
+}
+
+.glow-red-sm {
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.2);
+}
+
+.border-neon {
+  border-color: rgba(239, 68, 68, 0.25);
+}
+
+.border-neon:hover {
+  border-color: rgba(239, 68, 68, 0.6);
+}
