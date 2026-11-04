@@ -1,0 +1,7 @@
+{
+  "name": "cypher-bot-dashboard",
+  "private": true,
+  "scripts": {
+    "build": "cd dashboard && npm install && npm run build"
+  }
+}
